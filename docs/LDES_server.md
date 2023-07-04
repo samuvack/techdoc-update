@@ -624,7 +624,7 @@ Further documentation can be found on the internal Swagger API available at `/v1
 
 ### Setting up a view
 
-Setting up a view on the LDES Server can be done by performing a PUT operation with a RDF object defining a collection to `/admin/api/v1/eventstreams/{collectionName}/views`
+Setting up a view on the LDES Server can be done by performing a POST operation with a RDF object defining a collection to `/admin/api/v1/eventstreams/{collectionName}/views`
 
   ```turtle
   @prefix ldes: <https://w3id.org/ldes#> .
@@ -655,8 +655,8 @@ Further documentation can be found on the internal Swagger API available at `/v1
 To add metadata to an inserted view, one can perform a PUT operation with a DCAT view description and dataservice on `/admin/api/v1/eventstreams/{collectionName}/views/{viewName}/dcat`
 
 ```turtle
+@prefix ldes: <https://w3id.org/ldes#> .
 @prefix tree: <https://w3id.org/tree#>.
-@prefix example: <http://example.org/> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix host: <http://localhost:8080/> .
 @prefix server: <http://localhost:8080/collection/> .
@@ -665,31 +665,31 @@ To add metadata to an inserted view, one can perform a PUT operation with a DCAT
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
-server:viewName tree:viewDescription viewName:description .
+server:viewName a tree:Node ;
+  tree:viewDescription viewName:description .
 
 viewName:description
-  a       dcat:DataService , tree:ViewDescription ;
-  example:fragmentationStrategy
-          [ a  example:Fragmentation ;
-            example:name      "fragmentation" ;
-            example:pageSize  "100" ;
-            example:property  "example/property"
-          ] ;
-  dc:description "Geospatial fragmentation for my LDES"@en ;
-  dc:title "My geo-spatial view"@en ;
-  dc:license
-          [ a  dc:LicenseDocument ;
-            dc:type
-              [ a       skos:Concept ;
-                skos:prefLabel "some public license"@en
-              ]
-          ] ;
-  ldes:retentionPolicy [
-      a ldes:DurationAgoPolicy  ;
-      tree:value "PT2M"^^xsd:duration ;
-  ] ;
-  dcat:endpointURL server:viewName ;
-  dcat:servesDataset host:collection ;
+     a       dcat:DataService , tree:ViewDescription ;
+     tree:fragmentationStrategy
+             ([ a  tree:ExampleFragmentation ;
+               tree:pageSize  "100" ;
+               tree:property  "example/property"
+             ]) ;
+     dc:description "Geospatial fragmentation for my LDES"@en ;
+     dc:title "My geo-spatial view"@en ;
+     dc:license
+             [ a  dc:LicenseDocument ;
+               dc:type
+                 [ a       skos:Concept ;
+                   skos:prefLabel "some public license"@en
+                 ]
+             ] ;
+     ldes:retentionPolicy [
+         a ldes:DurationAgoPolicy  ;
+         tree:value "PT2M"^^xsd:duration ;
+     ] ;
+     dcat:endpointURL server:viewName ;
+     dcat:servesDataset host:collection ;
 ```
 
 Similarly, a DELETE request can be performed on `/admin/api/v1/eventstreams/{collectionName}/views/{viewName}/dcat`

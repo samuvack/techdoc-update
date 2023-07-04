@@ -195,11 +195,11 @@ paths:
                     
                     </view1> tree:viewDescription [
                         ldes:retentionPolicy ... ;
-                        example:fragmentationStrategy [
-                            a example:Fragmentation ;
-                            example: pageSize ... ;
-                            example:property (propertyPath) .
-                        ] .
+                        tree:fragmentationStrategy ([
+                            a tree:Fragmentation ;
+                            tree: pageSize ... ;
+                            tree:property (propertyPath) .
+                        ]) .
                     ] .
         '404':
           description: Linked Data Event Stream not found
@@ -228,11 +228,11 @@ paths:
                   
                   </{viewName}> tree:viewDescription [
                       ldes:retentionPolicy ... ;
-                      example:fragmentationStrategy [
-                          a example:Fragmentation ;
-                          example: pageSize ... ;
-                          example:property (propertyPath) .
-                      ] .
+                      tree:fragmentationStrategy ([
+                          a tree:Fragmentation ;
+                          tree: pageSize ... ;
+                          tree:property (propertyPath) .
+                      ]) .
                   ] .
         required: true
       responses:
@@ -269,11 +269,11 @@ paths:
                     
                     </{viewName}> tree:viewDescription [
                         ldes:retentionPolicy ... ;
-                        example:fragmentationStrategy [
-                            a example:Fragmentation ;
-                            example: pageSize ... ;
-                            example:property (propertyPath) .
-                        ] .
+                        tree:fragmentationStrategy ([
+                            a tree:Fragmentation ;
+                            tree: pageSize ... ;
+                            tree:property (propertyPath) .
+                        ]) .
                     ] .
         '404':
           description: Collection or view not found
@@ -426,10 +426,10 @@ paths:
                         ] ;
                         tree:viewDescription [
                           ldes:retentionPolicy ... ;
-                          example:fragmentationStrategy [
-                            a example:Fragmentation ;
+                          tree:fragmentationStrategy ([
+                            a tree:Fragmentation ;
                             ... .
-                          ] .
+                          ]) .
                         ] .
         '404':
           description: Collection or view not found

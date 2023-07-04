@@ -152,11 +152,11 @@ curl -X 'POST' \
                         a ldes:DurationAgoPolicy  ;
                         tree:value "PT2M"^^xsd:duration ;
                     ] ;
-                    example:fragmentationStrategy [
-                        a example:Fragmentation ;
-                        example:name "timebased" ;
-                        example:memberLimit "20" ;
-                    ] ;
+                    tree:fragmentationStrategy ([
+                        a tree:Fragmentation ;
+                        tree:name "timebased" ;
+                        tree:memberLimit "20" ;
+                    ]) ;
                 ] .
         '
     ```
