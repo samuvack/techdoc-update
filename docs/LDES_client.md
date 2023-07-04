@@ -34,4 +34,4 @@ An essential functionality of the LDES client is *resuming*, enabling the client
 
 ## Linked Data Interactions
 
-The LDES client component is written in Java and available as an [SDK](https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions/tree/main/ldi-core/ldes-client) in the Linked Data Interactions repository. More information about Linked Data Interactions can be found [here](/docs/Linked_Data_Interactions.md).
+The LDES client component is written in Java and available as an [SDK](https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions/tree/main/ldi-core/ldes-client) in the Linked Data Interactions repository. More information about Linked Data Interactions can be found [here](/docs/LINKED_DATA_INTERACTIONS.md).
