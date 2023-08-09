@@ -2,18 +2,97 @@
 sort: 6
 ---
 
-# LINKED DATA INTERACTIONS
+# Linked Data Interactions Building Blocks
 
-The Linked Data Interactions Repo (LDI) is a bundle of basic SDKs used to receive, generate, transform and output Linked Data available as open-source components on [GitHub](https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions). The repository has the following structure
-- ldi-api → contains a bundle of generic interfaces and classes to be used in the LDI SDKs
-- ldi-core → contains various SDKs which can be wrapped in a desired implementation framework
-- Implementation modules → the repository contains wrappers for [Apache Nifi](https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions/tree/main/ldi-nifi/ldi-nifi-processors) and our own [LDI Orchestrator](https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions/tree/main/ldi-orchestrator).
-  
-The sections below give an overview of the available SDKs.
 
-## LDES Client
+## Building blocks
 
-The [LDES Client SDK]((https://github.com/Informatievlaanderen/VSDS-Linked-Data-Interactions/tree/main/ldi-core/ldes-client)) contains the functionality to replicate and synchornise an LDES, and to persist its state for that process. More information on the functionalites can be found [here](/docs/LDES_client.md).
+As the LDI strives to be an easily reusable project, each of our building blocks are framework independent and is being maintained as part in our LDI Core.
+
+Each of the LDI Core Building Blocks falls under one of four categories:
+* [LDI Input](ldi-inputs): A component that will receive data (not necessarily LD) to then feed the LDI pipeline.
+* [LDI Adapter](ldi-adapters): To be used in conjunction with the LDI Input, the LDI Adapter will transform the provided content into and internal Linked Data model and sends it down the pipeline.
+* [LDI Transformer](ldi-transformers): A component that takes in a Linked Data model, transforms/modifies it and then puts it back on the pipeline.
+* [LDI Output](ldi-outputs): A component that will take in Linked Data and will export it to external sources.
+
+````mermaid
+stateDiagram-v2
+    direction LR
+    [*] --> LDI_Input
+    LDI_Input --> LDI_Transformer : LD
+    LDI_Transformer --> LDI_Output : LD
+    LDI_Output --> [*]
+
+    state LDI_Input {
+        direction LR
+        [*] --> LDI_Adapter : Non LD
+
+        state LDI_Adapter {
+            direction LR
+            [*] --> adapt
+            adapt --> [*]
+        }
+
+        LDI_Adapter --> [*] : LD
+    }
+    
+    state LDI_Transformer {
+        direction LR
+        [*] --> transform
+        transform --> [*]
+    }
+    state LDI_Output {
+        direction LR
+        [*] --> [*]
+    }
+````
+
+## Linked Data Interactions Inputs
+
+The LDI Input is a component that will receive data (not necessarily LD) to then feed the LDI pipeline.
+
+
+### Archive File In
+
+
+The Archive File In is used to read the models from a file archive created by the [Archive File Out component](../ldi-outputs/file-archiving.md).
+
+This component traverses all directories in the archive in lexical order and reads the members in lexical order as well.
+
+Example expected structure:
+- archive
+  - 2022
+    - 01
+      - 01
+        - member-1.nq
+        - member-2.nq
+        - ...
+      - 02
+        - member-122.nq
+        - ...
+
+#### Config
+
+| Property         | Description                       | Required | Default                     | Example          | Supported values                |
+|:-----------------|:----------------------------------|:---------|:----------------------------|:-----------------|:--------------------------------|
+| archive-root-dir | The root directory of the archive | Yes      | N/A                         | /parcels/archive | Linux (+ Mac) and Windows paths |
+| source-format    | The source format of the files    | No       | Deduced from file extension | text/turtle      | Any Jena supported format       |
+
+#### Example
+A complete demo of the archiving functionality with both LDIO and NiFi can be found in the [E2E repo](https://github.com/Informatievlaanderen/VSDS-LDES-E2E-testing/tree/main/tests/033.archiving)
+
+{: .note }
+The traversal order is **lexical**, this means that 1, 2, 3, ..., 9 should have leading zeroes. 
+03 will be read before 10 but 3 will be read after 10.
+
+{: .note }
+Not all file extensions can be deduced automatically. Extensions like `.ttl` and `.nq` work fine and don't need a source-format specified.
+When using LD+JSON, you will need to specify the source-format.
+
+
+### Ldes Client
+
+The LDES Client contains the functionality to replicate and synchornise an LDES, and to persist its state for that process. More information on the functionalites can be found [here][VSDS Tech Docs].
 
 This is achieved by configuring the processor with an initial fragment URL. When the processor is triggered, the fragment will be processed, and all relations will be added to the (non-persisted) queue.
 
@@ -23,27 +102,4 @@ It will be ignored when an attempt is made to queue a known immutable fragment. 
 
 Processed members of mutable fragments are also kept in state. They are ignored if presented more than once.
 
-## Version Object Creator
-
-The Version Object Creator building block is responsible for converting a state object into a version object. 
-This is the case in which entities, such as addresses, do not understand the concept of time. 
-
-## Version Materializer
-The Version Materializer building block is responsible for converting a version object back into a state object. 
-
-## NGSI-V2 to NGSI-LD
-
-As we are working with Linked Data, NGSI-V2 can not be used in a Linked Data Event Stream. 
-This building block is responsible for converting NGSI-V2 data to NGSI-LD format in case the data publishers works with a context broker that only supports NGSI-V2.
-
-Here you can find a [workflow of the IoW case](https://github.com/Informatievlaanderen/VSDS-LDES-E2E-testing/blob/6228fe5add3f8f47354b53b723ded69a945ec4d3/use-cases/iow/workflow.json) where this processor is used.
-
-## SPARQL Construct Transfomer
-SPARQL Construct is a query language used in semantic Web technologies to create RDF (Resource Description Framework) graphs from existing RDF data. It allows users to specify a pattern of data they wish to extract from the RDF data and construct a new graph based on that pattern.
-
-The SPARQL Construct query language provides a powerful way to create new RDF data by using existing data as the input. It can be used to transform RDF data into different formats, as well as to simplify the structure of RDF data by aggregating or filtering data. 
-
-This SPARQL Construct Transfomer building block can be used to execute model transformations.
-
-## "RDF4J PUT"-processor
-The RDF4J PUT Processor building block is responsible for writing RDF data to triple stores that support the RDF4J API. This enables the import of LDES data into triple stores such as [GraphDB](https://www.ontotext.com/products/graphdb/).
+[VSDS Tech Docs]: https://informatievlaanderen.github.io/VSDS-Tech-Docs/docs/LDES_client.html

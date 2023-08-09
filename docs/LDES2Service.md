@@ -2,7 +2,7 @@
 sort: 7
 ---
 
-# LDES2SERVICE
+# LDES2Service
 
 This sections provides an overview of how data consumer can replicate data to different backend systems.
 

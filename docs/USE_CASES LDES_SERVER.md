@@ -2,7 +2,7 @@
 sort: 8
 ---
 
-# USE CASE LDES SERVER
+# Use case LDES server
 
 ```tip
 Having trouble implementing these examples? Please post your issue on the [VSDS Tech docs repo](https://github.com/Informatievlaanderen/VSDS-Tech-Docs/issues).

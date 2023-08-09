@@ -3,7 +3,7 @@ sort: 1
 ---
 
 
-# QUICK START
+# Quick start
 
 ## LDES Server & LDES Client
 

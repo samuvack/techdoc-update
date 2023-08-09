@@ -2,7 +2,7 @@
 sort: 9
 ---
 
-# RELEASE MANAGEMENT
+# Release management
 
 
 ## LDES Server [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Informatievlaanderen_VSDS-LDESServer4J&metric=alert_status&?style=social)](https://sonarcloud.io/summary/new_code?id=Informatievlaanderen_VSDS-LDESServer4J)
