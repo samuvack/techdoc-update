@@ -702,4 +702,4 @@ Further documentation can be found on the internal Swagger API available at `/v1
 
 Via the OpenAPI Specification it becomes possible discover how the LDES server API works, how to configure the LDES server, etc., in a user-friendly manner.
 
-{% include swagger2.html %}
+
