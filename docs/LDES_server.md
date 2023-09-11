@@ -698,6 +698,21 @@ Similarly, a DELETE request can be performed on `/admin/api/v1/eventstreams/{col
 ```note
 Further documentation can be found on the internal Swagger API available at `/v1/swagger`
 ```
+
+### Setting up ACM/IDM
+
+The Access and User Management (ACM) and Identity Management (IDM) of the Flemish government are products that allow you to manage the access and identity of data users that consume the published LDES. 
+
+This ADM/IDM security option through an API gateway, protects LDES Collections and Views from unauthorized access, recognizing the importance of data security. The API gateway serves as a security layer, managing access and applying authentication methods, such as ACM/IDM, reducing the chance of exposing sensitive data to unwanted parties.
+
+ACM/IDM verifies the identity and permissions of users and devices. This improved security feature increases the trust and dependability of LDES Server for organizations working in security-sensitive environments.
+
+During the ACM/IDM Standard integration process, you will work alongside the ACM/IDM integration team of the Flemish government to follow the standard connection procedure. One of our analysts will guide you through this process via an integration file, where agreements and requirements are documented. This procedure is followed for both new files and modifications to existing files.
+
+For more information, you can find it here:
+https://www.vlaanderen.be/acm-idm-standaard-aansluitingsproces
+
+
 #### OpenAPI swagger UI
 
 Via the OpenAPI Specification it becomes possible discover how the LDES server API works, how to configure the LDES server, etc., in a user-friendly manner.
